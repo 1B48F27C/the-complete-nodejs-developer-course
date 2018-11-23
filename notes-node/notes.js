@@ -1,1 +1,1 @@
-console.log('Notes are running!')
+console.log('Starting note.js')
