@@ -2,5 +2,9 @@
  {
   "title": "Reminder",
   "body": "Go to the cinema"
+ },
+ {
+  "title": "Another reminder",
+  "body": "Go to the work"
  }
 ]

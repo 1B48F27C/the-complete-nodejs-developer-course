@@ -1,16 +1,24 @@
 const fs = require('fs')
+const notesPath = './notes/notes.json'
 
-module.exports = (()=>{
+module.exports = (() => {
     const addNote = (title, body) => {
-        let notes = []
-        notes.push({
-            title,
-            body
-        })
+        let notes = [];
+        // get all notes from file
+        try {
+            let notesString = fs.readFileSync(notesPath)
+            notes = JSON.parse(notesString)
+        } catch (e) {
+            console.log(e)
+        }
 
-        let notesStringified = JSON.stringify(notes, 0, 1)
+        // check for duplicates
+        let duplicates = notes.filter(note => note.title == title)
+        if (duplicates.length > 0) return
 
-        fs.writeFileSync('./notes/notes.json', notesStringified)
+        // adding note
+        notes.push({title, body})
+        fs.writeFileSync(notesPath, JSON.stringify(notes, 0, 1))
     }
 
     const getAll = () => {
