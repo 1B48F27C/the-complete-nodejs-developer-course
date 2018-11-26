@@ -1,10 +1,10 @@
 [
  {
   "title": "Reminder",
-  "body": "Go to the cinema"
+  "description": "Go to the cinema"
  },
  {
-  "title": "Another reminder",
-  "body": "Go to the work"
+  "title": "Celebrate",
+  "description": "Happy New Year!"
  }
 ]

@@ -10,7 +10,7 @@
             "name": "Launch Program",
             "program": "${workspaceFolder}/notes-node\\app.js",
             "args": [
-                "add", "--title=Reminder", "--body=Go to the cinema"
+                "remove", "--title=Another reminder"
             ]
         }
     ]
