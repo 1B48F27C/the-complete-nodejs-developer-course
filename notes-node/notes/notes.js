@@ -2,15 +2,27 @@ const fs = require('fs')
 const notesPath = './notes/notes.json'
 
 module.exports = (() => {
-    const addNote = (title, description) => {
+
+    const fetchNotes = () => {
         let notes = [];
-        // get all notes from file
         try {
             let notesString = fs.readFileSync(notesPath)
-            notes = JSON.parse(notesString)
+            return JSON.parse(notesString)
         } catch (e) {
-            console.log(e)
+            return []
         }
+    }
+
+    const writeNotes = (notes) => {
+        try {
+            fs.writeFileSync(notesPath, JSON.stringify(notes, 0, 1))
+        } catch (e) {
+            return []
+        }
+    }
+
+    const addNote = (title, description) => {
+        let notes = fetchNotes()
 
         // check for duplicates
         let duplicates = notes.filter(note => note.title == title)
@@ -18,12 +30,12 @@ module.exports = (() => {
 
         // adding note
         notes.push({ title, description })
-        fs.writeFileSync(notesPath, JSON.stringify(notes, 0, 1))
+        writeNotes(notes)
     }
 
     const getAll = () => {
         try {
-            let notesString = JSON.parse(fs.readFileSync(notesPath))
+            let notesString = fetchNotes()
             console.log(JSON.stringify(notesString, 0, 1))
         } catch (e) {
             console.log(e)
@@ -31,36 +43,17 @@ module.exports = (() => {
     }
 
     const getNote = (title) => {
-        let notes = {}
-        let note = {}
+        let notes = fetchNotes()
+        let note = notes.filter(note => note.title == title)
         
-        try {
-            notes = JSON.parse(fs.readFileSync(notesPath))
-            note = notes.filter(note => note.title == title)
-        } catch (e) {
-            console.log(e)
-        }
-
         if (note.length > 0) console.log(`${JSON.stringify(note, 0, 1)}`)
         else console.log(`There is no any note with such title!`)
     }
 
     const removeNote = (title) => {
-        let notes = {}
-        
-        try {
-            notes = JSON.parse(fs.readFileSync(notesPath))
-            if (notes.length > 0) {
-                notes.forEach(element => {
-                    if (element.title == title) 
-                    notes.splice(notes.findIndex(e => e.title == title), 1)
-                });
-                
-                fs.writeFileSync(notesPath, JSON.stringify(notes, 0, 1))
-            }
-        } catch (e) {
-            console.log(e)
-        }
+        let notes = fetchNotes()
+        let filteredNotes = notes.filter(note => note.title != title)
+        writeNotes(filteredNotes)
     }
 
     return {
