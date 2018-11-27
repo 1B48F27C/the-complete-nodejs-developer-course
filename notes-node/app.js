@@ -4,27 +4,51 @@ const yargs = require('yargs')
 
 const notes = require('./notes/notes')
 
-const argv = yargs.argv
+const titleOptions = {
+    describe: 'Title of the note',
+    demand: true,
+    alias: 't'
+}
+
+const descriptionOptions = {
+    describe: 'Title of the note',
+    demand: true,
+    alias: 't'
+}
+
+const argv = yargs
+    .command('add', 'Add new note', {
+        'title': titleOptions,
+        'description': descriptionOptions
+    })
+    .command('list', 'List all notes')
+    .command('read', 'Show all notes', {
+        'title': titleOptions
+    })
+    .command('remove', 'Show all notes', {
+        'title': titleOptions
+    })
+    .argv
 let command = argv._[0]
 
 debugger
 
 switch (command) {
-    case 'add': { 
+    case 'add': {
         notes.addNote(argv.title, argv.description)
-        break 
+        break
     }
-    case 'list': { 
+    case 'list': {
         notes.getAll()
-        break 
+        break
     }
-    case 'read': { 
+    case 'read': {
         notes.getNote(argv.title)
-        break 
+        break
     }
-    case 'remove': { 
+    case 'remove': {
         notes.removeNote(argv.title)
-        break 
+        break
     }
     default: console.log(`Command is not recognized`)
 }
